@@ -65,6 +65,49 @@ p2_df |>
 Compare the two arms, we see that values in the control arm fluctuate placidly over time, whereas values in the experimental arm are higher than the ones in the control arm in general, and have an increasing tendency over time.
 
 
+## Problem 3
+
+Set mu = 0,simulate 5000 datasets.
+```{r}
+
+sim_t_test = function(mu = mu, n = 30, sigma = 5) {
+  sim_data = tibble(
+    x = rnorm(n, mean = mu, sd = sigma)
+    )
+  sim_result = broom::tidy(t.test(sim_data))
+  sim_result |> 
+    select(estimate, p.value)
+    
+}
+
+sim_results_df = expand_grid(
+  mu = 0,
+  iter = 1:5000) |>
+  mutate(estimate_df = map(mu, sim_t_test)) |> 
+  unnest(estimate_df) |>
+  rename("mu_estimate" = estimate) |>
+  rename("p_value" = "p.value")
+  
+
+sim_results_df
+```
+
+
+Repeat the above procedure for mu = {1,2,3,4,5,6}.
+
+```{r}
+sim_result_df2 = 
+  expand_grid(
+    mu = c(1, 2, 3, 4, 5, 6),
+    iter = 1:5000) |> 
+  mutate(estimate_df = map(mu, sim_t_test)) |> 
+  unnest(estimate_df) |>
+  rename("mu_estimate" = estimate) |>
+  rename("p_value" = "p.value")
+
+
+
+```
 
 
 
