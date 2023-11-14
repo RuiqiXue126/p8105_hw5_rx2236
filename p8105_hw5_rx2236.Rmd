@@ -109,6 +109,16 @@ sim_result_df2 =
 
 ```
 
-
+Making plots.
+```{r}
+sim_result_df2 |>
+  group_by(mu) |>
+  summarize(reject_count = sum(p_value <= 0.05), total_count = n(), power = reject_count / total_count) |>
+  #power = mean(p_value <= 0.05)
+  ggplot(aes(x = mu, y = power)) + 
+  geom_point() + geom_line() +
+  scale_x_continuous(labels = scales::number_format(prefix = "mu = "), breaks = seq(0,6,1)) +
+  labs(x = "True value of the mean", y = "Power of the test", title = "Power of the One-Sample T-test on Different True Values of the Mean")
+```
 
 
