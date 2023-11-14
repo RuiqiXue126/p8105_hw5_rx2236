@@ -21,7 +21,7 @@ For this problem, we are interested in data gathered and made public by _The Was
 
 ```{r}
 homicide_df = 
-  read_csv("data/homicide-data.csv", na = c("", "NA", "Unknown")) |>
+  read_csv("homicide-data.csv", na = c("", "NA", "Unknown")) |>
   mutate(
     city_state = str_c(city, state, sep = ", "),
     resolution = case_when(
